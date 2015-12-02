@@ -15,8 +15,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-/* This class corresponds to the second panel of the card layout, 
-the view where we really play the game */
+/* This class corresponds to the second panel of the 
+ * card layout, the view where we really play the game */
 
 public class GamePanel extends JPanel {
 	
