@@ -8,6 +8,8 @@ import javax.swing.JPanel;
 
 import Model.Grid;
 
+/* The frame containing the game. Uses a card layout composed of two views :
+ * the WelcomePanel view which is a menu, and the GamePanel view which is the proper game */
 
 public class Window extends JFrame {
 

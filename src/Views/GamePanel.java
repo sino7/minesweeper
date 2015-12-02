@@ -15,13 +15,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+/* This class corresponds to the second panel of the card layout, 
+the view where we really play the game */
+
 public class GamePanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	protected static Grid grid;
-	private static CellButton[][] buttonTab;
-	private static int buttonClicked;
-	private static JLabel minesLeft = new JLabel();
+	protected static CellButton[][] buttonTab;
+	protected static int buttonClicked;
+	protected static JLabel minesLeft = new JLabel();
 	
 	
 	public GamePanel(Grid grid)
@@ -31,15 +34,18 @@ public class GamePanel extends JPanel {
 		minesLeft.setForeground(Color.white);
 		minesLeft.setText(""+grid.getNbMines());
 
+		/* This panel uses a border layout, with two buttons and a label in the north, 
+		and the minesweeper array in the center */
 		this.setLayout(new BorderLayout());
 		
+		// Creation of the center panel, containing 20 x 20 buttons of the CellButton class
 		JPanel center = new JPanel();
 		buttonTab = new CellButton[grid.getHeight()][grid.getWidth()];
 		for(int i=0;i<grid.getHeight();i++)
 		{
 			for(int j=0;j<grid.getWidth();j++)
 			{
-				CellButton button = new CellButton(i, j, "");
+				CellButton button = new CellButton(grid.getTab()[i][j], "");
 				buttonTab[i][j] = button;
 				button.setPreferredSize(new Dimension(600/grid.getWidth()-5,600/grid.getHeight()-5));
 				button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -58,6 +64,7 @@ public class GamePanel extends JPanel {
 			}
 		}
 		
+		// Creation of the north panel, the label and the two buttons
 		JPanel north = new JPanel();
 		north.setBackground(Color.darkGray);
 		JButton bback = new JButton("Go back to menu");
@@ -88,13 +95,14 @@ public class GamePanel extends JPanel {
 		this.add(center, BorderLayout.CENTER);
 	}
 	
+	// Action triggered by the left click on one of the cell-buttons
 	public static void onLeftClick(CellButton button)
 	{
-		if(!button.getIsClicked())
+		if(!button.cell.getIsClicked())
 		{
-			int i = button.i;
-			int j = button.j;
-			button.setIsClicked(true);
+			int i = button.cell.getX();
+			int j = button.cell.getY();
+			button.cell.setIsClicked(true);
 			if(grid.getTab()[i][j].getIsMine())
 			{
 				ImageIcon cellMine = new ImageIcon(GamePanel.class.getResource("/cell-mine.png"));
@@ -137,30 +145,32 @@ public class GamePanel extends JPanel {
 		}
 	}
 	
+	// Action triggered by the right click on one of the cell-buttons
 	public static void onRightClick(CellButton button)
 	{
-		if(!button.getIsClicked())
+		if(!button.cell.getIsClicked())
 		{
-			if(!button.isRightClicked)
+			if(!button.cell.getIsRightClicked())
 			{
-				button.setIsRightClicked(true);
+				button.cell.setIsRightClicked(true);
 				minesLeft.setText(""+(Integer.parseInt(minesLeft.getText())-1));
 				ImageIcon cellFlag = new ImageIcon(GamePanel.class.getResource("/cell-flag.png"));
 				button.setIcon(cellFlag);
 			}	
 			else
 			{
-				button.setIsRightClicked(false);
+				button.cell.setIsRightClicked(false);
 				minesLeft.setText(""+(Integer.parseInt(minesLeft.getText())+1));
 				button.setIcon(null);
 			}
 		}
 	}
 	
+	// Method to reveal the content of a cell at the end of the game, called in the revealGame method
 	public static void revealCell(CellButton button)
 	{
-		int i = button.i;
-		int j = button.j;
+		int i = button.cell.getX();
+		int j = button.cell.getY();
 		
 		if(grid.getTab()[i][j].getIsMine())
 		{
@@ -179,13 +189,14 @@ public class GamePanel extends JPanel {
 		}
 	}
 	
+	// Method to reveal the contents of all the cells at the end of the game
 	public static void revealGame()
 	{
 		for(int i=0;i<grid.getHeight();i++)
 		{
 			for(int j=0;j<grid.getWidth();j++)
 			{
-				buttonTab[i][j].setIsClicked(true);
+				grid.getTab()[i][j].setIsClicked(true);
 				GamePanel.revealCell(buttonTab[i][j]);
 			}
 		}

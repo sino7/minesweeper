@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/* Class extending JFrame that corresponds to the modal that 
+appears at the end of the game, whether you win or loose */
+
 public class GameEndModal extends JFrame{
 	private static final long serialVersionUID = 1L;
 	protected boolean hasWon;
@@ -16,7 +19,9 @@ public class GameEndModal extends JFrame{
 	public GameEndModal(boolean hasWon)
 	{
 		this.hasWon = hasWon;
+		
 		String title = hasWon ? "Congrats ! You have won !" : "Too bad ! You stepped on a mine...";
+		
 		this.setTitle(title);
 	    this.setSize(400,200);
 	    this.setLocationRelativeTo(null);

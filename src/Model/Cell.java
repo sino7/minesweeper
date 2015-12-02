@@ -1,11 +1,15 @@
 package Model;
 
+// Class of the model that correspond to an individual cell, containing a mine or not
+
 public class Cell {
 	protected Grid grid;
 	protected boolean isMine ;
 	protected int nbMines ;
 	protected int x;
 	protected int y;
+	protected boolean isClicked = false;
+	protected boolean isRightClicked = false;
 
 	public Cell(int x, int y, int level, Grid grid)
 	{
@@ -13,9 +17,12 @@ public class Cell {
 		this.x = x;
 		this.y = y;
 		double lvl = level;
+		/* Random function to make this cell a mine or not, 
+		the probablity of this cell being a mine increases with the lvl variable */
 		this.isMine = (Math.random()<lvl/10);
 	}
 	
+	// Method that counts the number of adjacent cells that are mines
 	public int getNbMines()
 	{
 		int counter = 0;
@@ -33,8 +40,40 @@ public class Cell {
 		return counter;
 	}
 	
+	// Getters and setters
+	
 	public boolean getIsMine()
 	{
 		return this.isMine;
+	}
+	
+	public boolean getIsClicked()
+	{
+		return this.isClicked;
+	}
+	
+	public void setIsClicked(boolean isClicked)
+	{
+		this.isClicked = isClicked;
+	}
+	
+	public boolean getIsRightClicked()
+	{
+		return this.isRightClicked;
+	}
+	
+	public void setIsRightClicked(boolean isRightClicked)
+	{
+		this.isRightClicked = isRightClicked;
+	}
+	
+	public int getX()
+	{
+		return this.x;
+	}
+	
+	public int getY()
+	{
+		return this.y;
 	}
 }
